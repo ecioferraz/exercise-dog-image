@@ -15,6 +15,20 @@ class Doguinho extends Component {
     this.fetchDog();
   }
 
+  shouldComponentUpdate(_nextProps, nextState) {
+    if (nextState.dog.message.includes('terrier')) {
+      return false;
+    }
+    return true;
+  }
+
+  componentDidUpdate() {
+    const { dog: { message } } = this.state;
+    localStorage.setItem('last-dog', message);
+    const breed = message.split('/')[4];
+    alert(breed);
+  }
+
   async fetchDog() {
     try {
       const resp = await fetch('https://dog.ceo/api/breeds/image/random');
